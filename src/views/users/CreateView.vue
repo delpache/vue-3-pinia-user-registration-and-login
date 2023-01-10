@@ -58,13 +58,23 @@ async function onSubmit(values) {
 </script>
 
 <template>
-  <h1 class='text-xl mt-20 font-mono font-semibold text-violet-600'>
+  <h1 class='text-xl mt-20 mb-10 font-mono font-semibold text-violet-600'>
     {{ title }}
   </h1>
-  <div class="w-full mt-10 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg">
+  <RouterLink
+      to="/users"
+      class="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-24 mr-10 mb-2"
+  >
+    Retour
+  </RouterLink>
+  <div
+      v-if="!(user?.loading || user?.err)"
+      class="w-full mt-10 px-6 py-4 bg-white dark:bg-gray-800 shadow-md overflow-hidden sm:rounded-lg"
+  >
     <Form
         @submit="onSubmit"
         :validation-schema="schema"
+        :initial-values="user"
         v-slot="{ errors, isSubmitting }"
     >
       <div class="grid gap-6 md:grid-cols-2">
