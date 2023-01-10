@@ -15,7 +15,7 @@ function fakeBackend() {
                 switch (true) {
                     case url.endsWith('/auth/login') && options.method === 'POST':
                         return authenticate();
-                    case url.endsWith('/auth/register') && options.method === 'POST':
+                    case url.endsWith('/users/register') && options.method === 'POST':
                         return register();
                     case url.endsWith('/users') && options.method === 'GET':
                         return getUsers();
