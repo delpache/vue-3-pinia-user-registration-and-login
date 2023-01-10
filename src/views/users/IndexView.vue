@@ -56,16 +56,17 @@ usersStore.getAll();
             </td>
             <td class="px-6 py-4">
               <div class="flex justify-end gap-4">
-                <a href="#"
+                <router-link
+                   :to="`/users/edit/${user.id}`"
+                >
+                  <pencil-icon class="text-indigo-700" />
+                </router-link>
+                <button
                     @click="usersStore.delete(user.id)"
+                    :disabled="user.isDisabled"
                 >
-                  <trash-icon />
-                </a>
-                <a href="#"
-                    :to="`/users/edit/${user.id}`"
-                >
-                  <pencil-icon />
-                </a>
+                  <trash-icon class="text-red-700" />
+                </button>
               </div>
             </td>
           </tr>
