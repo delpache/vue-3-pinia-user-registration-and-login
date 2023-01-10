@@ -2,7 +2,7 @@
 import { Form, Field } from 'vee-validate'
 import * as Yup from 'yup'
 
-import { useUsersStore, useToastStore } from '@/stores'
+import { useUsersStore } from '@/stores'
 import { router } from '@/router'
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue"
 
@@ -13,20 +13,20 @@ const schema = Yup.object().shape({
       .required('Le nom est obligatoire'),
   username: Yup.string()
       .required('Le nom d\'utilisateur est obligatoire'),
+  email: Yup.string()
+      .required('L\'email est obligatoire'),
   password: Yup.string()
       .required('Le mot de passe est obligatoire')
       .min(6, 'Le mot de passe doit comporter au moins 6 caractères')
 });
 
 async function onSubmit(values) {
-  const usersStore = useUsersStore();
-  const toastStore = useToastStore();
+  const usersStore = useUsersStore()
   try {
-    await usersStore.register(values);
-    await router.push('/auth/login');
-    toastStore.success('Vous êtes inscrit avec succès');
+    await usersStore.register(values)
+    await router.push('/auth/login')
   } catch (error) {
-    toastStore.error(error);
+    console.log(error)
   }
 }
 </script>
@@ -53,7 +53,6 @@ async function onSubmit(values) {
           id="lastName"
           name="lastName"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          :class="{ 'inline-flex text-sm font-mono text-red-500': errors.lastName }"
           required autofocus
       >
       </Field>
@@ -72,7 +71,6 @@ async function onSubmit(values) {
           id="firstName"
           name="firstName"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          :class="{ 'inline-flex text-sm font-mono text-red-500': errors.firstName }"
           required
       >
       </Field>
@@ -91,11 +89,28 @@ async function onSubmit(values) {
           id="username"
           name="username"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          :class="{ 'inline-flex text-sm font-mono text-red-500': errors.username }"
           required
       >
       </Field>
       <span class="inline-flex text-sm font-mono text-red-500">{{ errors.username }}</span>
+    </div>
+
+    <div class="mt-2">
+      <label
+          for="username"
+          class="block mb-2 text-sm font-mono font-medium text-gray-900 dark:text-white"
+      >
+        Email
+      </label>
+      <Field
+          type="text"
+          id="email"
+          name="email"
+          class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          required
+      >
+      </Field>
+      <span class="inline-flex text-sm font-mono text-red-500">{{ errors.email }}</span>
     </div>
 
     <div class="mt-2">
@@ -110,7 +125,6 @@ async function onSubmit(values) {
           id="password"
           name="password"
           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          :class="{ 'inline-flex text-sm font-mono text-red-500': errors.password }"
           required
       >
       </Field>
